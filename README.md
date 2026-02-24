@@ -1,4 +1,6 @@
 # Tinder-Adoção
+
+NOMES: Ana Beatriz Pedrozo e Daniela Luísa da Conceição. 
 Projeto de um sistema de adoção estilo Tinder
 🐱 Tinder de Adoção de Gatinhos
 📌 Sobre o Projeto

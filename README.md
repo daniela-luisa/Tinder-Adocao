@@ -1,81 +1,73 @@
-# Tinder-Adoção
+# 🐱 CaTinder — Sistema de Adoção de Gatinhos
 
-NOMES: Ana Beatriz Pedrozo e Daniela Luísa da Conceição. 
+**Ana Beatriz Pedrozo & Daniela Luísa da Conceição**
 
-Projeto de um sistema de adoção estilo Tinder
-🐱 Tinder de Adoção de Gatinhos
-📌 Sobre o Projeto
+> Aplicação web de adoção responsável de gatos, inspirada na mecânica do Tinder.
 
-O Tinder de Adoção de Gatinhos é uma aplicação web inspirada no funcionamento do Tinder, criada com o objetivo de facilitar a adoção responsável de gatos.
-A plataforma permite que usuários visualizem perfis de gatinhos disponíveis para adoção, curtam aqueles com os quais se identificam e entrem em contato com os responsáveis, promovendo a conexão entre adotantes e animais que precisam de um lar.
+---
 
-Além do impacto social, o projeto também tem como objetivo aprendizado prático de novas tecnologias, muitas delas ainda não vistas durante a graduação.
+## 📌 Sobre o Projeto
 
-🎯 Objetivos do Sistema
+O **CaTinder** é uma aplicação web que transforma o processo de adoção de gatos em uma experiência intuitiva e acessível. Inspirado no funcionamento do Tinder, o sistema permite que qualquer pessoa navegue por perfis de gatinhos disponíveis para adoção, demonstre interesse com um like e, após aprovação da ONG responsável, entre em contato diretamente para concluir a adoção.
 
-Facilitar a divulgação de gatos disponíveis para adoção
+A plataforma conecta dois atores principais: **usuários** (possíveis adotantes) e **administradores** (ONGs ou responsáveis pelos animais), garantindo que o processo de adoção seja não apenas ágil, mas também responsável — com triagem humana antes de qualquer match ser confirmado.
 
-Tornar o processo de adoção mais intuitivo e acessível
+Além do impacto social, o projeto tem como objetivo o aprendizado prático de tecnologias modernas de desenvolvimento web, muitas delas ainda não abordadas durante a graduação.
 
-Aplicar conceitos de desenvolvimento web full stack
+---
 
-Trabalhar em equipe utilizando divisão de responsabilidades
+## 🎯 Objetivos do Sistema
 
-🛠️ Tecnologias Utilizadas
-Backend
+- Facilitar a divulgação de gatos disponíveis para adoção
+- Tornar o processo de adoção mais intuitivo, acessível e responsável
+- Garantir triagem dos candidatos antes da confirmação de cada adoção
+- Aplicar conceitos de desenvolvimento web full stack na prática
+- Trabalhar em equipe com divisão clara de responsabilidades
 
-Sails.js
-Framework backend que oferece uma estrutura pronta baseada em MVC, com actions e rotas bem organizadas. Acelera o desenvolvimento e facilita a manutenção do código. Também foi escolhido por ser uma tecnologia nova para aprendizado.
+---
 
-PostgreSQL
-Banco de dados relacional robusto, ideal para garantir integridade dos dados, consistência e suporte a transações.
+## 🛠️ Tecnologias Utilizadas
 
-Frontend
+### Backend
+| Tecnologia | Motivo da escolha |
+|---|---|
+| **Sails.js** | Framework MVC com rotas e actions bem organizadas. Acelera o desenvolvimento e é uma tecnologia nova para aprendizado |
+| **PostgreSQL** | Banco de dados relacional robusto, ideal para garantir integridade, consistência e suporte a transações |
 
-React
-Biblioteca para criação de interfaces dinâmicas e interativas por meio de componentes reutilizáveis. Permite atualização do estado da aplicação sem recarregar a página, proporcionando melhor experiência ao usuário. Também é uma tecnologia não vista na faculdade.
+### Frontend
+| Tecnologia | Motivo da escolha |
+|---|---|
+| **React** | Biblioteca para interfaces dinâmicas com componentes reutilizáveis. Atualiza o estado sem recarregar a página e é uma tecnologia não vista na graduação |
+| **Tailwind CSS** | Framework utilitário que agiliza o desenvolvimento de interfaces modernas, responsivas e visualmente consistentes |
 
-Tailwind CSS
-Framework CSS utilitário que facilita o desenvolvimento rápido de interfaces modernas e responsivas, mantendo consistência visual e reduzindo a quantidade de código CSS customizado.
+---
 
-📂 Funcionalidades Principais
+## ⚙️ Funcionalidades Principais
 
-Visualização de perfis de gatinhos disponíveis para adoção
+- Cadastro e autenticação de usuários
+- Navegação por cards de perfis de gatinhos com like e dislike
+- Sistema de match com aprovação humana pelo administrador
+- Notificação no sistema ao usuário quando um match é confirmado
+- Tela **Meus Matches** com histórico de matches pendentes e concluídos
+- Redirecionamento para WhatsApp com mensagem automática pré-preenchida
+- Controle de status dos gatinhos (disponível, em processo de adoção, adotado)
 
-Interação no estilo “curtir” ou “descartar”
+---
 
-Interface amigável e responsiva
+## 👥 Divisão de Tarefas
 
-Cadastro e gerenciamento de informações dos gatinhos
+### 👩‍💻 Daniela
+- Responsável pela maior parte do **backend**
+- Implementação das funcionalidades principais e regras de negócio
+- Criação das rotas e actions no Sails.js
+- Modelagem do banco de dados e garantia de integridade e transações
+- Participação parcial no frontend
 
-Integração entre frontend e backend via API
+### 👩‍💻 Ana
+- Responsável pelos **requisitos do sistema**
+- Definição e validação das funcionalidades
+- Responsável pela maior parte do **frontend**
+- Criação das interfaces, interações com o usuário e aplicação dos estilos com Tailwind
+- Participação parcial no backend
 
-👥 Divisão de Tarefas da Equipe
-👩‍💻 Daniela
-
-Responsável pela maior parte do backend
-
-Implementação das funcionalidades principais
-
-Criação das rotas e regras de negócio
-
-Modelagem do banco de dados e garantia de integridade e transações
-
-Participação parcial no frontend, auxiliando no desenvolvimento da interface
-
-👩‍💻 Ana
-
-Responsável pelos requisitos do sistema
-
-Definição e validação das funcionalidades
-
-Responsável pela maior parte do frontend
-
-Criação das interfaces, interação com o usuário e aplicação dos estilos
-
-Participação parcial no backend para aprendizado e colaboração
-
-📚 Considerações Finais
-
-Este projeto une tecnologia e impacto social, promovendo a adoção responsável de animais enquanto desenvolve habilidades práticas em tecnologias modernas de desenvolvimento web.
-Além disso, o trabalho em dupla permitiu aplicar conceitos de colaboração, organização e divisão de responsabilidades.
+---

@@ -20,6 +20,12 @@ module.exports = {
       allowNull: true,
     },
 
+    enderecoBairro: {
+      type: 'string',
+      maxLength: 100,
+      allowNull: true,
+    },
+
     enderecoCidade: {
       type: 'string',
       maxLength: 100,

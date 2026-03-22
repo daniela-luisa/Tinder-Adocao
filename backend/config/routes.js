@@ -12,4 +12,10 @@ module.exports.routes = {
   // 'GET /empresa/readall': { action: 'empresa/readall'},
   'GET /empresa/readoneid/:id': { action: 'empresa/readoneid'},
   'PUT /empresa/update/:id': { action: 'empresa/update'},
+
+  'POST /gato/create' : { action: 'gato/create'},
+  'DELETE /gato/delete/:id' : { action: 'gato/delete'},
+  'GET /gato/readall': { action: 'gato/readall'},
+  'GET /gato/readoneid/:id': { action: 'gato/readoneid'},
+  'PUT /gato/update/:id': { action: 'gato/update'},
 };

@@ -37,6 +37,26 @@ module.exports = {
       defaultsTo: 'disponivel',
     },
 
+    vacinado: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
+    castrado: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
+    vermifugado: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
+    deficiente: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
+
   },
 
 };

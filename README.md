@@ -54,6 +54,16 @@ Além do impacto social, o projeto tem como objetivo o aprendizado prático de t
 
 ---
 
+## 📐 Diagramas de Arquitetura
+
+### C4 - Nível 1 (Contexto)
+![C4 Nível 1 - Contexto](./docs/C4%20arquitetura/Nivel1%20Contexto.png)
+
+### C4 - Nível 2 (Container)
+![C4 Nível 2 - Container](./docs/C4%20arquitetura/Nivel2%20Container.png)
+
+---
+
 ## 👥 Divisão de Tarefas
 
 ### 👩‍💻 Daniela

@@ -18,4 +18,11 @@ module.exports.routes = {
   'GET /gato/readall': { action: 'gato/readall'},
   'GET /gato/readoneid/:id': { action: 'gato/readoneid'},
   'PUT /gato/update/:id': { action: 'gato/update'},
+
+  'POST /fotogato/create/:gatoId' : { action: 'fotogato/create'},
+  'DELETE /fotogato/delete/:id' : { action: 'fotogato/delete'},
+  'GET /fotogato/readall/:gatoId': { action: 'fotogato/readall'},
+  // 'GET /fotogato/readoneid/:id': { action: 'fotogato/readoneid'},
+  'PUT /fotogato/update/:id': { action: 'fotogato/update'},
+
 };

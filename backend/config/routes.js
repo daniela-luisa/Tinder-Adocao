@@ -25,4 +25,36 @@ module.exports.routes = {
   // 'GET /fotogato/readoneid/:id': { action: 'fotogato/readoneid'},
   'PUT /fotogato/update/:id': { action: 'fotogato/update'},
 
+  'POST /likeUsuario/create' : { action: 'likeusuario/create'},
+  'DELETE /likeUsuario/delete/:id' : { action: 'likeusuario/delete'},
+  'GET /likeUsuario/readall/:gatoId': { action: 'likeusuario/readall'},
+
+  'POST /personalidade/create' : { action: 'personalidade/create'},
+  'DELETE /personalidade/delete/:id' : { action: 'personalidade/delete'},
+  'GET /personalidade/readall': { action: 'personalidade/readall'},
+  'PUT /personalidade/update/:id': { action: 'personalidade/update'},
+
+  'POST /deficiencia/create' : { action: 'deficiencia/create'},
+  'DELETE /deficiencia/delete/:id' : { action: 'deficiencia/delete'},
+  'GET /deficiencia/readall': { action: 'deficiencia/readall'},
+  'GET /deficiencia/readoneid/:id': { action: 'deficiencia/readoneid'},
+  'PUT /deficiencia/update/:id': { action: 'deficiencia/update'},
+
+  'POST /gatoPersonalidade/create' : { action: 'gatopersonalidade/create'},
+  'DELETE /gatoPersonalidade/delete/:id' : { action: 'gatopersonalidade/delete'},
+  'GET /gatoPersonalidade/readall/:gatoId': { action: 'gatopersonalidade/readall'},
+
+  'POST /gatoDeficiencia/create' : { action: 'gatodeficiencia/create'},
+  'DELETE /gatoDeficiencia/delete/:id' : { action: 'gatodeficiencia/delete'},
+  'GET /gatoDeficiencia/readall/:gatoId': { action: 'gatodeficiencia/readall'},
+
+  'POST /perfilAdotante/create/:userId' : { action: 'perfiladotante/create'},
+  'GET /perfilAdotante/readoneid/:userId': { action: 'perfiladotante/readoneid'},
+  'PUT /perfilAdotante/update/:userId': { action: 'perfiladotante/update'},
+
+  'POST /match/create' : { action: 'match/create'},
+  'GET /match/readall/:userId': { action: 'match/readall'},
+  'GET /match/readoneid/:id': { action: 'match/readoneid'},
+
+
 };

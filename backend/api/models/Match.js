@@ -8,6 +8,11 @@ module.exports = {
       required: true,
     },
 
+    usuario: {
+      model: 'usuario',
+      required: true,
+    },
+
     status: {
       type: 'string',
       isIn: ['pendente', 'aprovado', 'recusado'],

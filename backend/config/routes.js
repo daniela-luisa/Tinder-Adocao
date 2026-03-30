@@ -8,8 +8,6 @@ module.exports.routes = {
   'PUT /usuario/update/:id': { action: 'usuario/update'},
 
   'POST /empresa/create' : { action: 'empresa/create'},
-  // 'DELETE /empresa/delete/:id' : { action: 'empresa/delete'},
-  // 'GET /empresa/readall': { action: 'empresa/readall'},
   'GET /empresa/readoneid/:id': { action: 'empresa/readoneid'},
   'PUT /empresa/update/:id': { action: 'empresa/update'},
 
@@ -22,7 +20,6 @@ module.exports.routes = {
   'POST /fotogato/create/:gatoId' : { action: 'fotogato/create'},
   'DELETE /fotogato/delete/:id' : { action: 'fotogato/delete'},
   'GET /fotogato/readall/:gatoId': { action: 'fotogato/readall'},
-  // 'GET /fotogato/readoneid/:id': { action: 'fotogato/readoneid'},
   'PUT /fotogato/update/:id': { action: 'fotogato/update'},
 
   'POST /likeUsuario/create' : { action: 'likeusuario/create'},
@@ -56,5 +53,6 @@ module.exports.routes = {
   'GET /match/readall/:userId': { action: 'match/readall'},
   'GET /match/readoneid/:id': { action: 'match/readoneid'},
 
-
+  'GET /notificacao/readall/:userId': { action: 'notificacao/readall'},
+  'PUT /notificacao/update/:id': { action: 'notificacao/update'},
 };

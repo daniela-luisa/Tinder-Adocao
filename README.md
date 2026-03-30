@@ -62,6 +62,9 @@ Além do impacto social, o projeto tem como objetivo o aprendizado prático de t
 ### C4 - Nível 2 (Container)
 ![C4 Nível 2 - Container](./docs/C4%20arquitetura/Nivel2%20Container.png)
 
+### C4 - Nível 3 (Componentes do Backend)
+![C4 Nível 3 - Backend](./docs/C4%20arquitetura/Nível3%20Componentes%20backend.png)
+
 ---
 
 ## 👥 Divisão de Tarefas

@@ -67,6 +67,12 @@ Além do impacto social, o projeto tem como objetivo o aprendizado prático de t
 
 ---
 
+## 📄 Requisitos do Projeto
+
+- [Visualizar PDF de requisitos](./docs/Requisitos/Tinder%20Adoção%20Requisitos.pdf)
+
+---
+
 ## 👥 Divisão de Tarefas
 
 ### 👩‍💻 Daniela

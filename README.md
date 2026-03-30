@@ -26,6 +26,12 @@ Além do impacto social, o projeto tem como objetivo o aprendizado prático de t
 
 ---
 
+## 🎨 Protótipo
+
+- [Visualizar protótipo no Figma](https://www.figma.com/make/p5pEuFIb8RypXfr5CruY2m/Tela-inicial-do-Tinder-de-gatinhos?t=SGkh4qTovRfJhkRA-20&fullscreen=1)
+
+---
+
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend

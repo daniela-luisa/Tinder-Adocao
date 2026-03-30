@@ -10,6 +10,7 @@
 
 module.exports.custom = {
 
+  jwtSecret: 'catinder-segredo-jwt-2026',
   /***************************************************************************
   *                                                                          *
   * Any other custom config this Sails app should use during development.    *

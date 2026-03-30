@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 module.exports = {
   friendlyName: 'Criar empresa',
   description: 'Permite o cadastro de uma empresa',
@@ -32,12 +34,8 @@ module.exports = {
         return exits.emailJaCadastrado({ erro: 'E-mail já cadastrado no sistema.' });
       }
 
-      const novaEmpresa = await Empresa.create({
-        nome,
-        email,
-        senhaHash: senha,
-        whatsapp,
-      }).fetch();
+      const senhaHash = await bcrypt.hash(senha, 10);
+      const novaEmpresa = await Empresa.create({ nome, email, senhaHash, whatsapp }).fetch();
 
       const dataFormatada = {
         ...novaEmpresa,

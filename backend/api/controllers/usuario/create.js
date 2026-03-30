@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 module.exports = {
   friendlyName: 'Criar usuário',
   description: 'Permite o cadastro de novos usuários',
@@ -34,7 +36,8 @@ module.exports = {
         return exits.emailJaCadastrado({ erro: 'E-mail já cadastrado no sistema.' });
       }
 
-      const novoUsuario = await Usuario.create({nome, email, senhaHash: senha, cpf, telefone, fotoUrl,}).fetch();
+      const senhaHash = await bcrypt.hash(senha, 10);
+      const novoUsuario = await Usuario.create({nome, email, senhaHash, cpf, telefone, fotoUrl,}).fetch();
 
       const dataFormatada = {
         ...novoUsuario,

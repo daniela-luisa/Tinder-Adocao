@@ -9,6 +9,9 @@ module.exports.policies = {
   'usuario/update': ['isAuthenticated'],
   'usuario/delete': ['isAuthenticated'],
 
+  // auth
+  'auth/logout': ['isAuthenticated'],
+
   // Empresa
   'empresa/create': true,
   'empresa/login': true,

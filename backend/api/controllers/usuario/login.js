@@ -16,7 +16,7 @@ module.exports = {
     },
     credenciaisInvalidas: {
       description: 'E-mail ou senha incorretos.',
-      responseType: 'unauthorized',
+      statusCode: 401,
     },
   },
 
@@ -25,12 +25,12 @@ module.exports = {
 
     const usuario = await Usuario.findOne({ email });
     if (!usuario) {
-      return exits.credenciaisInvalidas();
+      return exits.credenciaisInvalidas({ erro: 'E-mail ou senha incorretos.' });
     }
 
     const senhaCorreta = await bcrypt.compare(senha, usuario.senhaHash);
     if (!senhaCorreta) {
-      return exits.credenciaisInvalidas();
+      return exits.credenciaisInvalidas({ erro: 'E-mail ou senha incorretos.' });
     }
 
     const token = jwt.sign(
@@ -39,7 +39,20 @@ module.exports = {
       { expiresIn: '8h' }
     );
 
-    return exits.success({ token });
-  },
+    this.res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
+    return exits.success({
+      message: 'Login realizado com sucesso!',
+      usuario: {
+        id: usuario.id,
+        email: usuario.email,
+        nome: usuario.nome,
+      },
+    });
+  },
 };

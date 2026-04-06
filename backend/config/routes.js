@@ -4,6 +4,8 @@ module.exports.routes = {
   'POST /usuario/login': { action: 'usuario/login' },
   'POST /empresa/login': { action: 'empresa/login' },
 
+  'POST /auth/logout': { action: 'auth/logout' },
+
   'POST /usuario/create' : { action: 'usuario/create'},
   'DELETE /usuario/delete/:id' : { action: 'usuario/delete'},
   'GET /usuario/readall': { action: 'usuario/readall'},

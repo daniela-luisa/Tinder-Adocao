@@ -33,29 +33,26 @@ function Login() {
   }
 
 return (
-  <div className="min-h-screen flex flex-col items-center justify-center px-4"
-    style={{ background: 'linear-gradient(135deg, #fff0f0 0%, #fff8f0 100%)' }}>
+  <div className="min-h-screen flex flex-col items-center justify-center pb-5 bg-[#fff8f0]">
 
-    <div className="w-full max-w-md mb-6 self-start pl-2">
-      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors">
-        <FaArrowLeft size={14} />
-        <span className="text-sm font-medium">Voltar</span>
+    <div className="mb-6 mr-90">
+      <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-all hover:-translate-x-1 duration-300">
+        <FaArrowLeft size={16} />
+        <span className="text-base font-medium">Voltar</span>
       </button>
     </div>
 
-    <div className="bg-white rounded-3xl shadow-sm p-10 w-full max-w-md flex flex-col items-center gap-6">
+    <div className="bg-white rounded-3xl shadow-2xl shadow-black/40 p-10 w-full max-w-[420px] flex flex-col items-center gap-6">
 
       <div className="flex flex-col items-center gap-3">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg, #f9437a, #f97316)' }}>
-          <FaHeart size={28} className="text-white" />
+        <div className="w-18 h-18 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#ff399f] to-[#fd7a1c]">
+          <FaHeart size={40} className="text-white" />
         </div>
         <div className="flex flex-col items-center gap-1">
-          <h1 className="text-2xl font-bold"
-            style={{ background: 'linear-gradient(to right, #f9437a, #f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#FC008C] to-[#e66000] bg-clip-text text-transparent">
             MiauMatch
           </h1>
-          <p className="text-gray-400 text-sm">Entre na sua conta</p>
+          <p className="text-gray-600 text-sm">Entre na sua conta</p>
         </div>
       </div>
 
@@ -65,21 +62,17 @@ return (
         />
         <Input label="Senha" type="password" placeholder="••••••••" icon={RiLockPasswordLine} value={senha}
          onChange={(e) => setSenha(e.target.value)}
-        />
+         />
 
         {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
 
-        <Button
-          text={loading ? 'Entrando...' : 'Entrar'}
-          type="submit"
-          disabled={loading}
-        />
+        <Button text={loading ? 'Entrando...' : 'Entrar'} type="submit" disabled={loading}/>
       </form>
 
       <div className="w-full flex items-center gap-3">
-        <div className="flex-1 h-px bg-gray-200" />
+        <div className="flex-1 h-px bg-gray-300" />
         <span className="text-gray-400 text-sm">ou</span>
-        <div className="flex-1 h-px bg-gray-200" />
+        <div className="flex-1 h-px bg-gray-300" />
       </div>
 
       <p className="text-gray-500 text-sm">

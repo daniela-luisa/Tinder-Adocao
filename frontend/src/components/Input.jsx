@@ -1,6 +1,6 @@
 function Input({ label, type = 'text', placeholder, icon: Icon, value, onChange }) {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full min-w-0">
       <label className="ml-1 text-sm font-medium text-gray-700">
         {label}
       </label>

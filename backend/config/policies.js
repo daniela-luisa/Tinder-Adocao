@@ -27,6 +27,7 @@ module.exports.policies = {
 
   // Foto do gato
   'fotogato/create': ['isAuthenticated', 'isEmpresa'],
+  'fotogato/upload': ['isAuthenticated', 'isEmpresa'],
   'fotogato/update': ['isAuthenticated', 'isEmpresa'],
   'fotogato/delete': ['isAuthenticated', 'isEmpresa'],
   'fotogato/readall': ['isAuthenticated'],

@@ -23,6 +23,7 @@ module.exports.routes = {
   'PUT /gato/update/:id': { action: 'gato/update'},
 
   'POST /fotogato/create/:gatoId' : { action: 'fotogato/create'},
+  'POST /fotogato/upload/:gatoId' : { action: 'fotogato/upload'},
   'DELETE /fotogato/delete/:id' : { action: 'fotogato/delete'},
   'GET /fotogato/readall/:gatoId': { action: 'fotogato/readall'},
   'PUT /fotogato/update/:id': { action: 'fotogato/update'},

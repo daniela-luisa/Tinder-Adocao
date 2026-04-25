@@ -4,6 +4,7 @@ import { api } from '../../services/api';
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaArrowLeft, FaHeart } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
+import InputSenha from '../../components/InputSenha';
 import Input from '../../components/Input';
 import Button from '../../components/button';
 
@@ -60,9 +61,9 @@ return (
         <Input label="E-mail" type="email" placeholder="seu@email.com" icon={HiOutlineMail} value={email}
          onChange={(e) => setEmail(e.target.value)}
         />
-        <Input label="Senha" type="password" placeholder="••••••••" icon={RiLockPasswordLine} value={senha}
-         onChange={(e) => setSenha(e.target.value)}
-         />
+        <InputSenha label="Senha" placeholder="••••••••" value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
 
         {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
 

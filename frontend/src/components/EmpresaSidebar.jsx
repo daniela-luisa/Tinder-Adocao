@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
-import {
-  MdDashboard,
-  MdPets,
-  MdFavorite,
-  MdPerson,
-  MdLogout,
-} from 'react-icons/md';
+import { MdDashboard, MdPets, MdFavorite, MdPerson, MdLogout } from 'react-icons/md';
 
 const navItems = [
   { label: 'Dashboard',       icon: MdDashboard, path: '/empresa/home'    },
@@ -16,20 +10,18 @@ const navItems = [
 ];
 
 function getIniciais(nome) {
-  if (!nome) return '??';
+  if (!nome) { return '??'; }
   const partes = nome.trim().split(' ').filter(Boolean);
-  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+  if (partes.length === 1) { return partes[0].slice(0, 2).toUpperCase(); }
   return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
 }
 
 function EmpresaSidebar() {
   const [popoverAberto, setPopoverAberto] = useState(false);
   const [loadingLogout, setLoadingLogout] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Lê os dados da empresa que foram salvos no localStorage após o login
   const nomeExibido = localStorage.getItem('empresa_nome') || '';
   const iniciais = getIniciais(nomeExibido);
 
@@ -48,20 +40,16 @@ function EmpresaSidebar() {
   }
 
   return (
-    <aside className="w-[200px] flex-shrink-0 flex flex-col bg-white border-r border-gray-200 min-h-screen relative">
+    <aside className="w-[200px] flex-shrink-0 flex flex-col bg-white border-r border-gray-200 h-screen sticky top-0">
 
-      {/* Logo do app */}
       <div className="px-4 py-5 border-b border-gray-200">
-        <p className="text-base font-semibold" style={{ color: '#d4537e' }}>
-          MiauMatch
-        </p>
+        <p className="text-base font-semibold" style={{ color: '#d4537e' }}>MiauMatch</p>
         <p className="text-xs text-gray-400 mt-0.5">Painel Administrativo</p>
       </div>
 
-      {/* Navegação */}
       <nav className="flex flex-col gap-0.5 py-3 flex-1">
         {navItems.map((item) => {
-          const ativo = location.pathname === item.path;
+          const ativo = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
           const ItemIcon = item.icon;
           return (
             <button
@@ -80,15 +68,10 @@ function EmpresaSidebar() {
         })}
       </nav>
 
-      {/* Rodapé — identidade da empresa logada */}
       <div className="border-t border-gray-200 p-3 relative">
-
         {popoverAberto && (
           <>
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setPopoverAberto(false)}
-            />
+            <div className="fixed inset-0 z-10" onClick={() => setPopoverAberto(false)} />
             <div className="absolute bottom-[68px] left-3 right-3 bg-white border border-gray-200 rounded-xl shadow-md z-20 overflow-hidden">
               <button
                 onClick={() => { setPopoverAberto(false); navigate('/empresa/perfil'); }}
@@ -120,19 +103,13 @@ function EmpresaSidebar() {
           >
             {iniciais}
           </div>
-
-          <span className="text-sm text-gray-700 font-medium truncate flex-1 text-left">
-            {nomeExibido}
-          </span>
-
-          <svg
-            width="12" height="12" viewBox="0 0 12 12" fill="none"
+          <span className="text-sm text-gray-700 font-medium truncate flex-1 text-left">{nomeExibido}</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
             className={`text-gray-400 flex-shrink-0 transition-transform ${popoverAberto ? 'rotate-180' : ''}`}
           >
             <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-
       </div>
     </aside>
   );

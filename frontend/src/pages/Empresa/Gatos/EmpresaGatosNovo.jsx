@@ -27,7 +27,7 @@ function EmpresaGatosNovo() {
   } = useCadastrarGato();
 
   return (
-    <div className="flex min-h-screen bg-[#F5F5F3]">
+    <div className="flex h-screen bg-[#F5F5F3]">
       <EmpresaSidebar />
 
       <div className="flex-1 flex flex-col">

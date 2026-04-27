@@ -5,6 +5,7 @@ import EmpresaLogin from './pages/Empresa/Login/EmpresaLogin';
 import EmpresaHome from './pages/Empresa/Home/EmpresaHome';
 import EmpresaGatos from './pages/Empresa/Gatos/EmpresaGatos';
 import EmpresaGatosNovo from './pages/Empresa/Gatos/EmpresaGatosNovo';
+import Home from './pages/Home/Home';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/empresa/home" element={<EmpresaHome />} />
         <Route path="/empresa/gatos" element={<EmpresaGatos />} />
         <Route path="/empresa/gatos/novo" element={<EmpresaGatosNovo />} />
+        <Route path="/home" element={<Home />} />
         {/* <Route path="/empresa/matches" element={<EmpresaMatches />} /> */}
         {/* <Route path="/empresa/perfil"  element={<EmpresaPerfil />} /> */}
       </Routes>

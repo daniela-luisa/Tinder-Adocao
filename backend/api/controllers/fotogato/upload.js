@@ -41,8 +41,7 @@ module.exports = {
     const req = this.req;
     const res = this.res;
 
-    const gatoId = req.param('gatoId');
-    const principal = req.param('principal') === 'true';
+    const gatoId = req.params && req.params.gatoId;
 
     if (!gatoId) {
       return res.badRequest({ erro: 'gatoId é obrigatório.' });
@@ -63,19 +62,22 @@ module.exports = {
         return res.badRequest({ erro: 'Nenhum arquivo enviado.' });
       }
 
+      const principalRaw = req.body && (req.body.principal || req.body['principal '] || '');
+      const principal = principalRaw.toString().trim() === 'true';
       const urlPublica = `http://localhost:1337/uploads/fotos/${req.file.filename}`;
 
       const fotosExistentes = await FotoGato.find({ gato: gatoId });
       const ehPrimeira = fotosExistentes.length === 0;
+      const devePrincipal = principal || ehPrimeira;
 
-      if (principal || ehPrimeira) {
+      if (devePrincipal) {
         await FotoGato.update({ gato: gatoId }).set({ principal: false });
       }
 
       const novaFoto = await FotoGato.create({
         gato: gatoId,
         url: urlPublica,
-        principal: principal || ehPrimeira,
+        principal: devePrincipal,
       }).fetch();
 
       return res.ok({

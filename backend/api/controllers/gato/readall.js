@@ -1,36 +1,31 @@
 module.exports = {
   friendlyName: 'Listar gatos',
-  description: 'Retorna todos os gatos cadastrados',
+  description: 'Retorna todos os gatos cadastrados com foto principal',
 
   inputs: {},
 
   exits: {
-    success: {
-      description: 'Lista retornada com sucesso!',
-    },
-    notFound: {
-      description: 'Nenhum gato encontrado.',
-      responseType: 'notFound',
-    },
-    error: {
-      description: 'Erro ao listar gatos.',
-    },
+    success: { description: 'Lista retornada com sucesso!' },
+    error: { description: 'Erro ao listar gatos.' },
   },
 
   fn: async function (inputs, exits) {
     try {
-
       const gatos = await Gato.find();
 
-      if (!gatos || gatos.length === 0) {
-        return exits.notFound({ erro: 'Nenhum gato encontrado.' });
-      }
+      const todasFotos = await FotoGato.find({ gato: gatos.map((g) => g.id) });
 
-      const gatosFormatados = gatos.map(gato => ({
-        ...gato,
-        createdAt: new Date(gato.createdAt).toLocaleString('pt-BR'),
-        updatedAt: new Date(gato.updatedAt).toLocaleString('pt-BR'),
-      }));
+      const gatosFormatados = gatos.map((gato) => {
+        const fotos = todasFotos.filter((f) => f.gato === gato.id);
+        const fotoPrincipal = fotos.find((f) => f.principal === true) || fotos[0] || null;
+
+        return {
+          ...gato,
+          fotoPrincipal: fotoPrincipal ? fotoPrincipal.url : null,
+          createdAt: new Date(gato.createdAt).toLocaleString('pt-BR'),
+          updatedAt: new Date(gato.updatedAt).toLocaleString('pt-BR'),
+        };
+      });
 
       return exits.success({
         message: 'Gatos listados com sucesso!',
@@ -44,5 +39,4 @@ module.exports = {
       });
     }
   },
-
 };

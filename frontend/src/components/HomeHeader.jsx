@@ -1,82 +1,135 @@
-import { FaHeart, FaUser, FaSignOutAlt, FaSignInAlt, FaPaw, FaPlus } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { FaHeart, FaUser, FaBell } from 'react-icons/fa';
+import { api } from '../services/api';
 
-function HomeHeader({ userName, onLogout }) {
+function HomeHeader() {
   const navigate = useNavigate();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const isAuthenticated = !!userName;
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notificacoes, setNotificacoes] = useState([]);
+  const [naoLidas, setNaoLidas] = useState(0);
+  const dropdownRef = useRef(null);
+
+  const usuarioId = Number(localStorage.getItem('usuario_id'));
+  const usuarioNome = localStorage.getItem('usuario_nome') || '';
+  const iniciais = usuarioNome
+    ? usuarioNome.trim().split(' ').filter(Boolean).map((p) => p[0]).slice(0, 2).join('').toUpperCase()
+    : '';
+
+  useEffect(() => {
+    if (!usuarioId) return;
+    async function carregarNotificacoes() {
+      try {
+        const res = await api.get(`/notificacao/readall/${usuarioId}`);
+        setNotificacoes(res.notificacoes || []);
+        setNaoLidas(res.naoLidas || 0);
+      } catch {
+        setNotificacoes([]);
+        setNaoLidas(0);
+      }
+    }
+    carregarNotificacoes();
+  }, [usuarioId]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setNotifOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  async function marcarLida(notif) {
+    if (notif.lida) return;
+    try {
+      await api.put(`/notificacao/update/${notif.id}`, { lida: true });
+      setNotificacoes((prev) => prev.map((n) => (n.id === notif.id ? { ...n, lida: true } : n)));
+      setNaoLidas((prev) => Math.max(0, prev - 1));
+    } catch (err) {
+      console.error('Erro ao marcar notificação como lida:', err);
+    }
+  }
 
   return (
-    <header className="w-full py-5 px-8 flex items-center justify-between">
+    <header className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-30">
+
+      {/* Logo — igual ao original */}
       <div className="flex items-center gap-3">
-        <div className="bg-linear-to-r from-[#ff399f] to-[#fd7a1c] rounded-2xl p-3 shadow-lg">
-          <FaHeart size={28} className="text-white" />
+        <div className="bg-gradient-to-r from-[#ff399f] to-[#fd7a1c] rounded-2xl p-2.5 shadow-lg">
+          <FaHeart size={22} className="text-white" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold bg-linear-to-r from-[#FC008C] to-[#e66000] bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-[#FC008C] to-[#e66000] bg-clip-text text-transparent">
             MiauMatch
           </h1>
-          <p className="text-sm text-gray-500">Encontre seu companheiro perfeito</p>
+          <p className="text-xs text-gray-500">Encontre seu companheiro perfeito</p>
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        {isAuthenticated && (
-          <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-pink-50 rounded-full">
-            <FaUser size={14} className="text-pink-600" />
-            <span className="text-sm font-medium text-pink-700">{userName}</span>
-          </div>
-        )}
+      {/* Sino + Avatar */}
+      <div className="flex items-center gap-2">
 
-        {isAuthenticated && (
-          <div className="relative">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-[#ff399f] to-[#fd7a1c] text-white rounded-full shadow-md hover:opacity-90 transition-opacity"
-            >
-              <FaPlus size={14} />
-              <span className="text-sm font-medium">Cadastrar</span>
-            </button>
-
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
-                <button
-                  onClick={() => { navigate('/empresa/gatos/novo'); setDropdownOpen(false); }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
-                >
-                  <FaPaw size={14} className="text-pink-500" />
-                  Cadastrar gatinho
-                </button>
-                <button
-                  onClick={() => { navigate('/cadastro'); setDropdownOpen(false); }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
-                >
-                  <FaUser size={14} className="text-pink-500" />
-                  Perfil de adotante
-                </button>
-              </div>
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setNotifOpen((v) => !v)}
+            className="relative w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
+          >
+            <FaBell size={15} className="text-gray-500" />
+            {naoLidas > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#FC008C] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                {naoLidas > 9 ? '9+' : naoLidas}
+              </span>
             )}
-          </div>
-        )}
+          </button>
 
-        {isAuthenticated ? (
-          <button
-            onClick={onLogout}
-            className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-          >
-            <FaSignOutAlt size={14} className="text-gray-600" />
-            <span className="hidden sm:inline text-sm font-medium text-gray-700">Sair</span>
-          </button>
-        ) : (
-          <button
-            onClick={() => navigate('/login')}
-            className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-          >
-            <FaSignInAlt size={14} className="text-gray-600" />
-            <span className="text-sm font-medium text-gray-700">Entrar</span>
-          </button>
-        )}
+          {notifOpen && (
+            <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+              <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                <span className="text-sm font-semibold text-gray-800">Notificações</span>
+                {naoLidas > 0 && (
+                  <span className="text-xs text-pink-500 font-medium">{naoLidas} nova{naoLidas > 1 ? 's' : ''}</span>
+                )}
+              </div>
+              {notificacoes.length === 0 ? (
+                <div className="px-4 py-8 text-center">
+                  <p className="text-sm text-gray-400">Nenhuma notificação ainda</p>
+                  <p className="text-xs text-gray-300 mt-1">Seus matches aparecerão aqui</p>
+                </div>
+              ) : (
+                <div className="max-h-72 overflow-y-auto divide-y divide-gray-50">
+                  {notificacoes.map((n) => (
+                    <button
+                      key={n.id}
+                      onClick={() => marcarLida(n)}
+                      className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors flex items-start gap-3 ${!n.lida ? 'bg-pink-50/50' : ''}`}
+                    >
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#ff399f] to-[#fd7a1c] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <FaHeart size={12} className="text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-gray-800 font-medium leading-snug">
+                          {n.mensagem || 'Você teve um match! 🎉'}
+                        </p>
+                        <p className="text-xs text-gray-400 mt-0.5">{n.createdAt}</p>
+                      </div>
+                      {!n.lida && <div className="w-2 h-2 rounded-full bg-[#FC008C] flex-shrink-0 mt-1.5" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={() => navigate('/perfil')}
+          className="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-[11px] font-semibold text-[#d4537e] hover:bg-pink-100 transition-colors"
+        >
+          {iniciais || <FaUser size={13} className="text-[#d4537e]" />}
+        </button>
+
       </div>
     </header>
   );

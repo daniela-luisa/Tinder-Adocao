@@ -1,4 +1,3 @@
-
 module.exports.routes = {
 
   'POST /usuario/login': { action: 'usuario/login' },
@@ -31,6 +30,7 @@ module.exports.routes = {
   'POST /likeUsuario/create' : { action: 'likeusuario/create'},
   'DELETE /likeUsuario/delete/:id' : { action: 'likeusuario/delete'},
   'GET /likeUsuario/readall/:gatoId': { action: 'likeusuario/readall'},
+  'GET /likeUsuario/readallbyusuario/:usuarioId': { action: 'likeusuario/readallbyusuario'},
 
   'POST /personalidade/create' : { action: 'personalidade/create'},
   'DELETE /personalidade/delete/:id' : { action: 'personalidade/delete'},

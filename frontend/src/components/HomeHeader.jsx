@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHeart, FaUser, FaBell } from 'react-icons/fa';
+import { FaHeart, FaUser, FaBell, FaSignOutAlt } from 'react-icons/fa';
 import { api } from '../services/api';
 
 function HomeHeader() {
   const navigate = useNavigate();
   const [notifOpen, setNotifOpen] = useState(false);
+  const [perfilOpen, setPerfilOpen] = useState(false);
   const [notificacoes, setNotificacoes] = useState([]);
   const [naoLidas, setNaoLidas] = useState(0);
-  const dropdownRef = useRef(null);
+  const notifRef = useRef(null);
+  const perfilRef = useRef(null);
 
   const usuarioId = Number(localStorage.getItem('usuario_id'));
   const usuarioNome = localStorage.getItem('usuario_nome') || '';
@@ -33,9 +35,8 @@ function HomeHeader() {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setNotifOpen(false);
-      }
+      if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false);
+      if (perfilRef.current && !perfilRef.current.contains(e.target)) setPerfilOpen(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -52,10 +53,21 @@ function HomeHeader() {
     }
   }
 
+  async function handleLogout() {
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // silencioso
+    } finally {
+      localStorage.removeItem('usuario_id');
+      localStorage.removeItem('usuario_nome');
+      navigate('/login');
+    }
+  }
+
   return (
     <header className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-30">
 
-      {/* Logo — igual ao original */}
       <div className="flex items-center gap-3">
         <div className="bg-gradient-to-r from-[#ff399f] to-[#fd7a1c] rounded-2xl p-2.5 shadow-lg">
           <FaHeart size={22} className="text-white" />
@@ -68,12 +80,12 @@ function HomeHeader() {
         </div>
       </div>
 
-      {/* Sino + Avatar */}
       <div className="flex items-center gap-2">
 
-        <div className="relative" ref={dropdownRef}>
+        {/* Sino de notificações */}
+        <div className="relative" ref={notifRef}>
           <button
-            onClick={() => setNotifOpen((v) => !v)}
+            onClick={() => { setNotifOpen((v) => !v); setPerfilOpen(false); }}
             className="relative w-9 h-9 flex items-center justify-center rounded-full bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
           >
             <FaBell size={15} className="text-gray-500" />
@@ -123,12 +135,35 @@ function HomeHeader() {
           )}
         </div>
 
-        <button
-          onClick={() => navigate('/perfil')}
-          className="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-[11px] font-semibold text-[#d4537e] hover:bg-pink-100 transition-colors"
-        >
-          {iniciais || <FaUser size={13} className="text-[#d4537e]" />}
-        </button>
+        {/* Avatar com dropdown */}
+        <div className="relative" ref={perfilRef}>
+          <button
+            onClick={() => { setPerfilOpen((v) => !v); setNotifOpen(false); }}
+            className="w-9 h-9 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-[11px] font-semibold text-[#d4537e] hover:bg-pink-100 transition-colors"
+          >
+            {iniciais || <FaUser size={13} className="text-[#d4537e]" />}
+          </button>
+
+          {perfilOpen && (
+            <div className="absolute right-0 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+              <button
+                onClick={() => { setPerfilOpen(false); navigate('/perfil'); }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 transition-colors"
+              >
+                <FaUser size={13} className="text-pink-500" />
+                Ver perfil
+              </button>
+              <div className="h-px bg-gray-100 mx-3" />
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition-colors"
+              >
+                <FaSignOutAlt size={13} />
+                Sair
+              </button>
+            </div>
+          )}
+        </div>
 
       </div>
     </header>

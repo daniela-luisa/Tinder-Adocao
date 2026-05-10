@@ -51,9 +51,17 @@ module.exports = {
         await Gato.updateOne({ id: like.gato }).set({ status: 'em_processo' });
       }
 
+      const gato = await Gato.findOne({ id: like.gato });
+      const nomeGato = gato ? gato.nome : 'gatinho';
+
+      const mensagem = status === 'aprovado'
+        ? `Você teve um match com ${nomeGato}! 🎉 Entre em contato para adotar.`
+        : `Sua solicitação para adotar ${nomeGato} não foi aprovada desta vez. 😿`;
+
       await Notificacao.create({
         usuario: like.usuario,
         match: novoMatch.id,
+        mensagem,
         lida: false,
       }).fetch();
 

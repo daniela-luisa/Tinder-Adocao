@@ -13,6 +13,11 @@ module.exports = {
       required: true,
     },
 
+    mensagem: {
+      type: 'string',
+      allowNull: true,
+    },
+
     lida: {
       type: 'boolean',
       defaultsTo: false,

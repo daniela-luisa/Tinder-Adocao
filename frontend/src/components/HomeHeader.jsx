@@ -66,7 +66,7 @@ function HomeHeader() {
   }
 
   return (
-    <header className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-30">
+    <header className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-30 bg-white/80 backdrop-blur-sm">
 
       <div className="flex items-center gap-3">
         <div className="bg-gradient-to-r from-[#ff399f] to-[#fd7a1c] rounded-2xl p-2.5 shadow-lg">

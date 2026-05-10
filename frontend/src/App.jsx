@@ -4,6 +4,7 @@ import Cadastro from './pages/Cadastro/Cadastro';
 import Home from './pages/Home/Home';
 import PerfilUsuario from './pages/Perfil/PerfilUsuario';
 import Curtidas from './pages/Curtidas/Curtidas';
+import Matches from './pages/Matches/Matches';
 import GatoDetalhe from './pages/Gato/GatoDetalhe';
 import EmpresaLogin from './pages/Empresa/Login/EmpresaLogin';
 import EmpresaHome from './pages/Empresa/Home/EmpresaHome';
@@ -23,7 +24,7 @@ function App() {
 
         {/* Páginas com bottom nav — a implementar */}
         <Route path="/curtidas" element={<Curtidas />} />
-        {/* <Route path="/matches"  element={<Matches />} /> */}
+        <Route path="/matches" element={<Matches />} />
         <Route path="/perfil"     element={<PerfilUsuario />} />
         <Route path="/gato/:id"   element={<GatoDetalhe />} />
 

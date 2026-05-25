@@ -132,21 +132,19 @@ function PerfilUsuario() {
   }
 
 
-  async function handleSalvar() {
+   async function handleSalvar() {
     setErro(null);
     setSalvando(true);
     try {
-      const endpoint = perfil
-        ? `/perfilAdotante/update/${usuarioId}`
-        : `/perfilAdotante/create`;
-
-      const body = perfil
-        ? { ...form, userId: usuarioId }
-        : { ...form, userId: usuarioId };
-
-      const method = perfil ? 'put' : 'post';
-      const res = await api[method](endpoint, body);
-
+      let res;
+      if (perfil) {
+        // Atualiza — rota: PUT /perfilAdotante/update/:userId
+        res = await api.put(`/perfilAdotante/update/${usuarioId}`, { ...form });
+      } else {
+        // Cria — rota: POST /perfilAdotante/create/:userId
+        res = await api.post(`/perfilAdotante/create/${usuarioId}`, { ...form });
+      }
+ 
       setPerfil(res.perfil);
       preencherForm(res.perfil);
       setEditando(false);

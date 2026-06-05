@@ -31,10 +31,6 @@ module.exports = {
 
       const vinculos = await GatoDeficiencia.find({ gato: gatoId }).populate('deficiencia');
 
-      if (!vinculos || vinculos.length === 0) {
-        return this.res.status(404).json({ erro: 'Nenhuma deficiência encontrada para este gato.' });
-      }
-
       const vinculosFormatados = vinculos.map(vinculo => ({
         ...vinculo,
         createdAt: new Date(vinculo.createdAt).toLocaleString('pt-BR'),

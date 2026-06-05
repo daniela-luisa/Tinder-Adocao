@@ -65,6 +65,7 @@ module.exports.policies = {
   'likeusuario/delete': ['isAuthenticated'],
   'likeusuario/readall': ['isAuthenticated'],
   'likeusuario/readallbyusuario': ['isAuthenticated'],
+  'likeusuario/readallbyempresa': ['isAuthenticated', 'isEmpresa'],
 
   // Match
   'match/create': ['isAuthenticated', 'isEmpresa'],

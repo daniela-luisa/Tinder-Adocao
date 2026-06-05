@@ -31,6 +31,7 @@ module.exports.routes = {
   'DELETE /likeUsuario/delete/:id' : { action: 'likeusuario/delete'},
   'GET /likeUsuario/readall/:gatoId': { action: 'likeusuario/readall'},
   'GET /likeUsuario/readallbyusuario/:usuarioId': { action: 'likeusuario/readallbyusuario'},
+  'GET /likeUsuario/readallbyempresa': { action: 'likeusuario/readallbyempresa'},
 
   'POST /personalidade/create' : { action: 'personalidade/create'},
   'DELETE /personalidade/delete/:id' : { action: 'personalidade/delete'},

@@ -17,10 +17,11 @@ module.exports = {
         return exits.success({ message: 'Nenhum like encontrado.', likes: [] });
       }
 
-      // Busca todos os gatos e fotos de uma vez
+      // Busca todos os gatos, fotos, matches e perfis de adotante
       const gatos = await Gato.find();
       const todasFotos = await FotoGato.find();
       const matches = await Match.find();
+      const perfis = await PerfilAdotante.find();
 
       const matchPorLike = {};
       matches.forEach((m) => { matchPorLike[m.like] = m; });
@@ -33,15 +34,29 @@ module.exports = {
 
         return {
           likeId: like.id,
-          usuario: {
-            id: like.usuario ? like.usuario.id : null,
-            nome: like.usuario ? like.usuario.nome : null,
-            email: like.usuario ? like.usuario.email : null,
-          },
+          usuario: (function() {
+            var u = like.usuario;
+            var usuId = u ? u.id : null; var p = null; for (var pi = 0; pi < perfis.length; pi++) { if (perfis[pi].usuario === usuId) { p = perfis[pi]; break; } }
+            return {
+              id:               u ? u.id    : null,
+              nome:             u ? u.nome  : null,
+              email:            u ? u.email : null,
+              tipoMoradia:              p ? p.tipoMoradia              : null,
+              moradiaPropria:           p ? p.moradiaPropria           : null,
+              temOutrosAnimais:         p ? p.temOutrosAnimais         : null,
+              temTelasProtecao:         p ? p.temTelasProtecao         : null,
+            };
+          })(),
           gato: {
-            id: gato ? gato.id : null,
-            nome: gato ? gato.nome : null,
-            raca: gato ? gato.raca : null,
+            id:          gato ? gato.id          : null,
+            nome:        gato ? gato.nome        : null,
+            raca:        gato ? gato.raca        : null,
+            sexo:        gato ? gato.sexo        : null,
+            idadeMeses:  gato ? gato.idadeMeses  : null,
+            vacinado:    gato ? gato.vacinado    : false,
+            castrado:    gato ? gato.castrado    : false,
+            vermifugado: gato ? gato.vermifugado : false,
+            status:      gato ? gato.status      : null,
             fotoPrincipal: fotoPrincipal ? fotoPrincipal.url : null,
           },
           match: match ? { id: match.id, status: match.status, comentario: match.comentario } : null,

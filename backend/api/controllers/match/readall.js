@@ -8,61 +8,58 @@ module.exports = {
 
   exits: {
     success: { description: 'Matches listados com sucesso!' },
-    error: { description: 'Erro ao listar matches.' },
+    error:   { description: 'Erro ao listar matches.' },
   },
 
   fn: async function (inputs, exits) {
     try {
-      const matches = await Match.find({ usuario: inputs.userId });
+      const todosMatches = await Match.find();
+      const todosLikes   = await LikeUsuario.find();
+      const todosGatos   = await Gato.find();
+      const todasFotos   = await FotoGato.find();
+      const empresas     = await Empresa.find();
 
-      if (!matches || matches.length === 0) {
+      // Filtra likes do usuário
+      const likesDoUsuario = todosLikes.filter((l) => l.usuario === inputs.userId);
+      const likeIdsDoUsuario = likesDoUsuario.map((l) => l.id);
+
+      // Filtra matches dos likes do usuário
+      const matchesDoUsuario = todosMatches.filter((m) => likeIdsDoUsuario.includes(m.like));
+
+      if (!matchesDoUsuario.length) {
         return exits.success({ message: 'Nenhum match encontrado.', matches: [] });
       }
 
-      // Busca os likes relacionados
-      const likeIds = matches.map((m) => m.like);
-      const likes = await LikeUsuario.find({ id: likeIds });
+      const empresa = empresas[0] || null;
 
-      // Busca os gatos
-      const gatoIds = likes.map((l) => l.gato);
-      const gatos = await Gato.find({ id: gatoIds });
-      const todasFotos = await FotoGato.find({ gato: gatoIds });
+      const matchesFormatados = matchesDoUsuario.map((match) => {
+        const like = likesDoUsuario.find((l) => l.id === match.like) || null;
+        if (!like) { return null; }
 
-      // Busca empresa pra pegar whatsapp
-      const empresas = await Empresa.find();
-
-      const matchesFormatados = matches.map((match) => {
-        const like = likes.find((l) => l.id === match.like) || null;
-        if (!like) {
-          return null;
-        }
-
-        const gato = gatos.find((g) => g.id === like.gato) || null;
-        if (!gato) {
-          return null;
-        }
+        const gato = todosGatos.find((g) => g.id === like.gato) || null;
+        if (!gato) { return null; }
 
         const fotos = todasFotos.filter((f) => f.gato === gato.id);
         const fotoPrincipal = fotos.find((f) => f.principal) || fotos[0] || null;
 
-        // Pega o primeiro whatsapp disponível (sistema tem uma empresa só)
-        const empresa = empresas[0] || null;
-
         return {
-          matchId: match.id,
-          status: match.status,
+          matchId:    match.id,
+          status:     match.status,
           comentario: match.comentario || null,
           gato: {
-            id: gato.id,
-            nome: gato.nome,
-            raca: gato.raca,
-            idadeMeses: gato.idadeMeses,
+            id:           gato.id,
+            nome:         gato.nome,
+            raca:         gato.raca,
+            idadeMeses:   gato.idadeMeses,
             fotoPrincipal: fotoPrincipal ? fotoPrincipal.url : null,
           },
           empresa: empresa ? { nome: empresa.nome, whatsapp: empresa.whatsapp || null } : null,
           createdAt: new Date(match.createdAt).toLocaleString('pt-BR'),
         };
       }).filter(Boolean);
+
+      // Ordena do mais recente pro mais antigo
+      matchesFormatados.sort((a, b) => b.matchId - a.matchId);
 
       return exits.success({
         message: 'Matches listados com sucesso!',

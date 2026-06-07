@@ -23,7 +23,7 @@ function HomeHeader() {
     async function carregarNotificacoes() {
       try {
         const res = await api.get(`/notificacao/readall/${usuarioId}`);
-        setNotificacoes(res.notificacoes || []);
+        setNotificacoes((res.notificacoes || []).slice().sort((a, b) => b.id - a.id));
         setNaoLidas(res.naoLidas || 0);
       } catch {
         setNotificacoes([]);
@@ -68,7 +68,7 @@ function HomeHeader() {
   return (
     <header className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-30 bg-white/80 backdrop-blur-sm">
 
-      <div className="flex items-center gap-3">
+      <button onClick={() => navigate('/home')} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="bg-gradient-to-r from-[#ff399f] to-[#fd7a1c] rounded-2xl p-2.5 shadow-lg">
           <FaHeart size={22} className="text-white" />
         </div>
@@ -78,7 +78,7 @@ function HomeHeader() {
           </h1>
           <p className="text-xs text-gray-500">Encontre seu companheiro perfeito</p>
         </div>
-      </div>
+      </button>
 
       <div className="flex items-center gap-2">
 

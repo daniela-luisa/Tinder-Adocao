@@ -4,31 +4,20 @@ module.exports = {
 
   inputs: {
     usuarioId: { type: 'number', required: true },
-    gatoId: { type: 'number', required: true },
+    gatoId:    { type: 'number', required: true },
   },
 
   exits: {
-    success: {
-      description: 'Like registrado com sucesso!',
-    },
-    notFound: {
-      description: 'Usuário ou gato não encontrado.',
-      responseType: 'notFound',
-    },
-    badRequest: {
-      description: 'Operação não permitida.',
-      responseType: 'badRequest',
-    },
-    error: {
-      description: 'Erro ao registrar like.',
-    },
+    success:    { description: 'Like registrado com sucesso!' },
+    notFound:   { description: 'Usuário ou gato não encontrado.', responseType: 'notFound' },
+    badRequest: { description: 'Operação não permitida.',         responseType: 'badRequest' },
+    error:      { description: 'Erro ao registrar like.' },
   },
 
   fn: async function (inputs, exits) {
     const { usuarioId, gatoId } = inputs;
 
     try {
-
       const usuario = await Usuario.findOne({ id: usuarioId });
       if (!usuario) {
         return this.res.status(404).json({ erro: 'Usuário não encontrado' });
@@ -44,13 +33,21 @@ module.exports = {
       }
 
       const likeExistente = await LikeUsuario.findOne({ usuario: usuarioId, gato: gatoId });
+
       if (likeExistente) {
-        return exits.badRequest({ erro: 'Você já deu like neste gato.' });
+        // Verifica se o match foi rejeitado — se sim, permite curtir de novo
+        const matchExistente = await Match.findOne({ like: likeExistente.id });
+        const foiRejeitado = matchExistente && matchExistente.status === 'recusado';
+
+        if (!foiRejeitado) {
+          return exits.badRequest({ erro: 'Você já deu like neste gato.' });
+        }
+        // Se rejeitado, cai aqui e cria um novo like mantendo o histórico
       }
 
       const novoLike = await LikeUsuario.create({
         usuario: usuarioId,
-        gato: gatoId,
+        gato:    gatoId,
       }).fetch();
 
       const likeFormatado = {
@@ -71,5 +68,4 @@ module.exports = {
       });
     }
   },
-
 };

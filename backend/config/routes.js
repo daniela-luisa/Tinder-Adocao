@@ -14,6 +14,7 @@ module.exports.routes = {
   'POST /empresa/create' : { action: 'empresa/create'},
   'GET /empresa/readoneid/:id': { action: 'empresa/readoneid'},
   'PUT /empresa/update/:id': { action: 'empresa/update'},
+  'GET /empresa/dashboard': { action: 'empresa/dashboard'},
 
   'POST /gato/create' : { action: 'gato/create'},
   'DELETE /gato/delete/:id' : { action: 'gato/delete'},

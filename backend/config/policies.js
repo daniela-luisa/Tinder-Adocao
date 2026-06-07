@@ -17,6 +17,7 @@ module.exports.policies = {
   'empresa/login': true,
   'empresa/readoneid': ['isAuthenticated', 'isEmpresa'],
   'empresa/update': ['isAuthenticated', 'isEmpresa'],
+  'empresa/dashboard': ['isAuthenticated', 'isEmpresa'],
 
   // Gato
   'gato/readall': ['isAuthenticated'],

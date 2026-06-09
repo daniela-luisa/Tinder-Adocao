@@ -6,17 +6,37 @@ function useHomeGatos() {
   const [loading, setLoading] = useState(true);
   const [swipedIds, setSwipedIds] = useState([]);
   const [toast, setToast] = useState(null);
-  const [filters, setFilters] = useState({ locations: [], ages: [], characteristics: [] });
-
-  const usuarioId = Number(localStorage.getItem('usuario_id'));
+  const [filters, setFilters] = useState({
+    locations: [],
+    ages: [],
+    characteristics: [],
+  });
 
   useEffect(() => {
     async function carregar() {
       setLoading(true);
+      const usuarioId = Number(localStorage.getItem('usuario_id'));
+
       try {
         const res = await api.get('/gato/readall');
-        // Só mostra gatos disponíveis
-        const disponiveis = (res.gatos || []).filter((g) => g.status === 'disponivel');
+
+        let gatoIdsBloqueados = [];
+
+        if (usuarioId) {
+          try {
+            const likesRes = await api.get(
+              `/likeUsuario/readallbyusuario/${usuarioId}`
+            );
+            gatoIdsBloqueados = likesRes?.gatoIds || [];
+          } catch (err) {
+            console.warn('Erro ao buscar likes do usuário:', err);
+          }
+        }
+
+        const disponiveis = (res.gatos || [])
+          .filter((g) => g.status === 'disponivel')
+          .filter((g) => !gatoIdsBloqueados.some((id) => Number(id) === Number(g.id)));
+
         setGatos(disponiveis);
       } catch (err) {
         console.error('Erro ao carregar gatos:', err);
@@ -25,11 +45,12 @@ function useHomeGatos() {
         setLoading(false);
       }
     }
+
     carregar();
   }, []);
 
-  // Opções únicas para os filtros
-  const availableLocations = useMemo(() => [], []); // backend não retorna location ainda
+  const availableLocations = useMemo(() => [], []);
+
   const availableAges = useMemo(() => {
     const set = new Set();
     gatos.forEach((g) => {
@@ -51,7 +72,6 @@ function useHomeGatos() {
     return [...set];
   }, [gatos]);
 
-  // Filtragem
   const gatosFiltrados = useMemo(() => {
     let result = gatos.filter((g) => !swipedIds.includes(g.id));
 
@@ -83,16 +103,15 @@ function useHomeGatos() {
   }
 
   async function handleSwipe(direction) {
+    const usuarioId = Number(localStorage.getItem('usuario_id'));
     if (gatosFiltrados.length === 0) return;
     const gato = gatosFiltrados[0];
 
     if (direction === 'right') {
-      // Registra like no backend
       if (usuarioId) {
         try {
           await api.post('/likeUsuario/create', { usuarioId, gatoId: gato.id });
         } catch (err) {
-          // Se já deu like antes, ignora o erro e segue
           console.warn('Like:', err?.erro || err);
         }
       }

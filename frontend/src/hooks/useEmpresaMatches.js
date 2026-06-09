@@ -15,7 +15,8 @@ export function useEmpresaMatches() {
   async function carregar() {
     try {
       const res = await api.get('/likeUsuario/readallbyempresa');
-      setLikes(res.likes || []);
+      const ordenados = (res.likes || []).slice().sort((a, b) => b.likeId - a.likeId);
+      setLikes(ordenados);
     } catch {
       setLikes([]);
     } finally {

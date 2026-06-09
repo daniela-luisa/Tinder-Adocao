@@ -17,7 +17,8 @@ function useEmpresaGatos() {
       setLoading(true);
       try {
         const res = await api.get('/gato/readall');
-        setGatos(res.gatos || []);
+        const ordenados = (res.gatos || []).slice().sort((a, b) => b.id - a.id);
+        setGatos(ordenados);
       } catch (err) {
         console.error('Erro ao carregar gatos:', err);
         setGatos([]);
@@ -26,7 +27,7 @@ function useEmpresaGatos() {
       }
     }
     carregar();
-  }, [location.key]); // recarrega toda vez que navegar pra essa rota
+  }, [location.key]);
 
   function toggleFiltro(lista, setLista, valor) {
     setLista((prev) => prev.includes(valor) ? prev.filter((v) => v !== valor) : [...prev, valor]);

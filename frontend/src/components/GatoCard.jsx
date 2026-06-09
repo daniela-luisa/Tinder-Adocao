@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { GoTrash } from "react-icons/go";
 
-
 const STATUS_CONFIG = {
   disponivel:  { label: 'Disponível',  cor: 'bg-green-100 text-green-700' },
   em_processo: { label: 'Em processo', cor: 'bg-amber-100 text-amber-700' },
@@ -48,6 +47,11 @@ function GatoCard({ gato, onExcluir }) {
           <span className={`absolute top-2 right-2 text-[10px] font-medium px-2 py-0.5 rounded-full ${status.cor}`}>
             {status.label}
           </span>
+          {gato.createdAt && (
+            <div className="absolute top-0 left-0 right-0 bg-black/50 text-white text-[10px] px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              Cadastrado em {gato.createdAt}
+            </div>
+          )}
         </div>
 
         {/* Info */}
@@ -57,6 +61,7 @@ function GatoCard({ gato, onExcluir }) {
             {gato.sexo ? SEXO_LABEL[gato.sexo] : '—'} · {idadeLabel(gato.idadeMeses)}
           </p>
           {gato.raca && <p className="text-xs text-gray-400 truncate">{gato.raca}</p>}
+
         </div>
 
       </div>

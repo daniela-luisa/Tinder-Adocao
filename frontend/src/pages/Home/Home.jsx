@@ -103,12 +103,12 @@ function Home() {
         </div>
 
         {gatosFiltrados.length > 0 && (
-          <div className="flex items-center gap-6 mt-6 lg:-mt-2">
+          <div className="flex items-center gap-6 mt-6 lg:-mt-0.5">
             <button
               onClick={() => handleSwipe('left')}
-              className="w-16 h-16 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group"
+              className="w-16 h-16 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group"
             >
-              <FaTimes size={28} className="text-red-500 group-hover:scale-110 transition-transform" />
+              <FaTimes size={28} className=" lg:!text-[20px] text-red-500 group-hover:scale-110 transition-transform" />
             </button>
             <button
               onClick={() => {
@@ -119,13 +119,13 @@ function Home() {
 
                 handleSwipe('right');
               }}
-              className={`w-20 h-20 rounded-full shadow-lg transition-all flex items-center justify-center ${
+              className={`w-20 h-20 lg:w-14 lg:h-14 rounded-full shadow-lg transition-all flex items-center justify-center ${
                 possuiPerfil
                   ? 'bg-gradient-to-br from-[#FF308C] to-[#FF7200] hover:scale-110'
                   : 'bg-gray-300 opacity-60'
               }`}
             >
-              <FaHeart size={32} className="text-white" />
+              <FaHeart size={32} className=" lg:!text-[4px] text-white" />
             </button>
           </div>
         )}

@@ -19,7 +19,7 @@ function useHomeGatos() {
       const usuarioId = Number(localStorage.getItem('usuario_id'));
       if (usuarioId) {
       try {
-        await api.get(`/perfilAdotante/readbyusuario/${usuarioId}`);
+        await api.get(`/perfilAdotante/readoneid/${usuarioId}`);
         setPossuiPerfil(true);
       } catch {
         setPossuiPerfil(false);

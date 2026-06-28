@@ -17,21 +17,48 @@ function Cadastro() {
 
   const navigate = useNavigate();
 
-  async function handleCadastro(e) {
-    e.preventDefault();
-    setErro(null);
-    setLoading(true);
+ async function handleCadastro(e) {
+  e.preventDefault();
+  setErro(null);
 
-    try {
-      await api.post('/usuario/create', { nome, email, senha, cpf });
-      navigate('/login');
-    } catch (err) {
-      setErro(err.erro || 'Erro ao realizar cadastro.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  if (!nome.trim() || !email.trim() || !senha.trim() || !cpf.trim()) {
+    setErro('Todos os campos devem ser preenchidos.');
+    return;
   }
+
+  if (senha.length < 6) {
+    setErro('A senha deve conter pelo menos 6 caracteres.');
+    return;
+  }
+
+  const cpfLimpo = cpf.replace(/\D/g, '');
+
+  if (cpfLimpo.length !== 11) {
+    setErro('O CPF deve conter 11 dígitos.');
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    await api.post('/usuario/create', {
+      nome,
+      email,
+      senha,
+      cpf,
+    });
+
+    navigate('/login');
+  } catch (err) {
+    setErro(
+      err.response?.data?.erro ||
+      'Erro ao realizar cadastro.'
+    );
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8 bg-[#fff8f0]">
@@ -98,12 +125,15 @@ function Cadastro() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <InputSenha
-              label="Senha"
-              placeholder="••••••••"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
+            <div className="flex flex-col gap-1">
+              <InputSenha
+                label="Senha"
+                placeholder="••••••••"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
+              <p className="text-xs text-gray-400 ml-1">Mínimo de 6 caracteres</p>
+            </div>
           </div>
 
           {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}

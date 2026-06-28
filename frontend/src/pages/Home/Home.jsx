@@ -20,19 +20,29 @@ function Home() {
     availableCharacteristics,
     handleSwipe,
     handleReset,
+    possuiPerfil,
+    avisarPerfilObrigatorio,
   } = useHomeGatos();
 
   const activeFilterCount =
     filters.locations.length + filters.ages.length + filters.characteristics.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-pink-50 via-orange-50 to-yellow-50 relative">
+   <div className="min-h-screen bg-gradient-to-r from-pink-50 via-orange-50 to-yellow-50 relative overflow-x-hidden">
 
-      {toast && (
-        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-2xl shadow-xl text-white text-sm font-medium ${toast.type === 'success' ? 'bg-green-500' : 'bg-gray-700'}`}>
-          {toast.message}
-        </div>
-      )}
+{toast && (
+  <div className="fixed top-4 left-4 right-4 z-50 flex justify-center pointer-events-none">
+    <div
+      className={`max-w-md w-full px-4 py-3 rounded-2xl shadow-xl text-white text-sm font-medium text-center break-words ${
+        toast.type === 'success'
+          ? 'bg-green-500'
+          : 'bg-gray-800'
+      }`}
+    >
+      {toast.message}
+    </div>
+  </div>
+)}
 
       <HomeHeader />
 
@@ -85,6 +95,8 @@ function Home() {
                 gato={gato}
                 onSwipe={handleSwipe}
                 isTop={index === arr.length - 1}
+                possuiPerfil={possuiPerfil}
+                onPerfilObrigatorio={avisarPerfilObrigatorio}
               />
             ))
           )}
@@ -99,10 +111,21 @@ function Home() {
               <FaTimes size={28} className="text-red-500 group-hover:scale-110 transition-transform" />
             </button>
             <button
-              onClick={() => handleSwipe('right')}
-              className="w-20 h-20 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group bg-gradient-to-br from-[#FF308C] to-[#FF7200]"
+              onClick={() => {
+                if (!possuiPerfil) {
+                  avisarPerfilObrigatorio();
+                  return;
+                }
+
+                handleSwipe('right');
+              }}
+              className={`w-20 h-20 rounded-full shadow-lg transition-all flex items-center justify-center ${
+                possuiPerfil
+                  ? 'bg-gradient-to-br from-[#FF308C] to-[#FF7200] hover:scale-110'
+                  : 'bg-gray-300 opacity-60'
+              }`}
             >
-              <FaHeart size={32} className="text-white fill-white group-hover:scale-110 transition-transform" />
+              <FaHeart size={32} className="text-white" />
             </button>
           </div>
         )}

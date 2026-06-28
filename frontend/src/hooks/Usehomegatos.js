@@ -6,6 +6,7 @@ function useHomeGatos() {
   const [loading, setLoading] = useState(true);
   const [swipedIds, setSwipedIds] = useState([]);
   const [toast, setToast] = useState(null);
+  const [possuiPerfil, setPossuiPerfil] = useState(false);
   const [filters, setFilters] = useState({
     locations: [],
     ages: [],
@@ -16,7 +17,14 @@ function useHomeGatos() {
     async function carregar() {
       setLoading(true);
       const usuarioId = Number(localStorage.getItem('usuario_id'));
-
+      if (usuarioId) {
+      try {
+        await api.get(`/perfilAdotante/readbyusuario/${usuarioId}`);
+        setPossuiPerfil(true);
+      } catch {
+        setPossuiPerfil(false);
+      }
+    }
       try {
         const res = await api.get('/gato/readall');
 
@@ -129,6 +137,13 @@ function useHomeGatos() {
     showToast('🔄 Vamos começar de novo!', 'info');
   }
 
+  function avisarPerfilObrigatorio() {
+  showToast(
+    'Complete seu perfil de adoção antes de curtir um gatinho.',
+    'info'
+  );
+}
+
   return {
     gatos,
     gatosFiltrados,
@@ -141,6 +156,8 @@ function useHomeGatos() {
     availableCharacteristics,
     handleSwipe,
     handleReset,
+    possuiPerfil,
+    avisarPerfilObrigatorio,
   };
 }
 

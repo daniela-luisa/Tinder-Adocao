@@ -23,6 +23,14 @@ module.exports = {
         return this.res.status(404).json({ erro: 'Usuário não encontrado' });
       }
 
+      const perfil = await PerfilAdotante.findOne({ usuario: usuarioId });
+
+      if (!perfil) {
+        return exits.badRequest({
+          erro: 'Você precisa completar seu perfil antes de curtir um gato.'
+        });
+      }
+
       const gato = await Gato.findOne({ id: gatoId });
       if (!gato) {
         return this.res.status(404).json({ erro: 'Gato não encontrado' });

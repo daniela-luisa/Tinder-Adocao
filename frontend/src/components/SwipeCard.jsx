@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { FaCalendarAlt, FaWheelchair, FaInfoCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-function SwipeCard({ gato, onSwipe, isTop }) {
+function SwipeCard({ gato, onSwipe, isTop, possuiPerfil, onPerfilObrigatorio, }) {
   const navigate = useNavigate();
   const cardRef = useRef(null);
   const [dragging, setDragging] = useState(false);
@@ -22,12 +22,24 @@ function SwipeCard({ gato, onSwipe, isTop }) {
     setOffset(e.clientX - startXRef.current);
   };
 
-  const handleMouseUp = () => {
-    if (!dragging) return;
-    setDragging(false);
-    if (Math.abs(offset) > 100) onSwipe(offset > 0 ? 'right' : 'left');
-    setOffset(0);
-  };
+const handleMouseUp = () => {
+  if (!dragging) return;
+
+  setDragging(false);
+
+  if (Math.abs(offset) > 100) {
+
+if (offset > 0 && !possuiPerfil) {
+  setOffset(0);
+  onPerfilObrigatorio?.();
+  return;
+}
+
+    onSwipe(offset > 0 ? 'right' : 'left');
+  }
+
+  setOffset(0);
+};
 
   const handleTouchStart = (e) => {
     if (!isTop) return;
@@ -40,12 +52,24 @@ function SwipeCard({ gato, onSwipe, isTop }) {
     setOffset(e.touches[0].clientX - startXRef.current);
   };
 
-  const handleTouchEnd = () => {
-    if (!dragging) return;
-    setDragging(false);
-    if (Math.abs(offset) > 100) onSwipe(offset > 0 ? 'right' : 'left');
-    setOffset(0);
-  };
+const handleTouchEnd = () => {
+  if (!dragging) return;
+
+  setDragging(false);
+
+  if (Math.abs(offset) > 100) {
+
+    if (offset > 0 && !possuiPerfil) {
+      setOffset(0);
+      onPerfilObrigatorio?.();
+      return;
+    }
+
+    onSwipe(offset > 0 ? 'right' : 'left');
+  }
+
+  setOffset(0);
+};  
 
   const rotate = offset / 15;
   const opacity = Math.max(0, 1 - Math.abs(offset) / 300);

@@ -118,7 +118,7 @@ const handleTouchEnd = () => {
       className="absolute w-full max-w-md"
     >
       <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-        <div className="relative h-96">
+       <div className="relative h-96 lg:h-85">
           {fotoUrl ? (
             <img src={fotoUrl} alt={gato.nome} className="w-full h-full object-cover" draggable={false} />
           ) : (
@@ -154,8 +154,8 @@ const handleTouchEnd = () => {
             </div>
           )}
 
-          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h2 className="text-4xl font-bold mb-2">{gato.nome}</h2>
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-4 text-white">
+            <h2 className="text-4xl md:text-3xl font-bold mb-2">{gato.nome}</h2>
             <div className="flex items-center gap-4">
               {idade && (
                 <div className="flex items-center gap-1">
@@ -170,7 +170,7 @@ const handleTouchEnd = () => {
           </div>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 md:p-4">
           {gato.descricao && (
             <p className="text-gray-700 mb-4 text-sm leading-relaxed">{gato.descricao}</p>
           )}

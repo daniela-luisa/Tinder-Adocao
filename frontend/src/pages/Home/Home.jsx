@@ -46,10 +46,10 @@ function Home() {
 
       <HomeHeader />
 
-      <main className="flex flex-col items-center px-4 pb-18">
+      <main className="flex flex-col items-center px-4 pb-10 md:pb-6">
 
         {/* Botão de filtro — design original, abre como overlay */}
-        <div className="w-full max-w-md mb-6">
+        <div className="w-full max-w-md mb-0 lg:-mb-2">
           <button
             onClick={() => setFiltroAberto(true)}
             className="w-full px-6 py-3 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-between"
@@ -69,7 +69,7 @@ function Home() {
           </button>
         </div>
 
-        <div className="relative w-full max-w-md h-[580px] flex items-center justify-center">
+        <div className="relative w-full max-w-md h-[580px] lg:h-[470px] flex items-center justify-center">
           {loading ? (
             <div className="text-center text-gray-400 text-sm">Buscando gatinhos...</div>
           ) : gatosFiltrados.length === 0 ? (
@@ -103,7 +103,7 @@ function Home() {
         </div>
 
         {gatosFiltrados.length > 0 && (
-          <div className="flex items-center gap-6 mt-6">
+          <div className="flex items-center gap-6 mt-6 lg:-mt-2">
             <button
               onClick={() => handleSwipe('left')}
               className="w-16 h-16 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 flex items-center justify-center group"
